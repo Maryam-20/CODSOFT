@@ -34,7 +34,7 @@ class TaskManager:
             dismis()
         elif ManagerInput.upper() == "NL":
             self.newCategory()
-        elif ManagerInput == "NT":
+        elif ManagerInput.upper() == "NT":
             self.newTask()
         else:
             print("Invalid operation!")
@@ -44,23 +44,14 @@ class TaskManager:
     def newCategory(self):
         global Task_CategoryName
         Task_CategoryName = input(" Enter the Task Category Name:\n ")
-        # self.MyTasks[Task_CategoryName] = {}
-        # self.MyTasks.append(Task_CategoryName)
-        
-        
         createTask_input = input("Create a task? Yes or No : \n  ")
         if createTask_input.capitalize() == "Yes":
             self.createTask()
-            
-            
-            # print(self.MyTasks)
-            # self.newList()
         elif createTask_input.capitalize() == "No":
             self.homepage()
         else:
             print("Invalid input!")
-    
-        # print(self.MyTasks)
+       
     
     # Function that create new task
     def createTask(self):
@@ -99,7 +90,6 @@ class TaskManager:
             if continueTask.upper() != "YES":
                 createTask = False
                 self.homepage() 
-        
             num += 1  
             print(self.MyTasks)    
         
@@ -120,26 +110,58 @@ class TaskManager:
             sys.exit()
         else:
             print ("invalid operation")
-            
+           
     # Function that print out the order of priority of task
     def priority(self):
         priorityInput = input(" IU -- Important and Urgent \n INU -- Important but not Urgent \n NIU -- Not Important and not Urgent \n -- ")
         if priorityInput.upper() == "IU":
             self.impUrg()
         elif priorityInput.upper() == "INU":
-            pass
+            self.impNurg()
         elif priorityInput.upper() == "NIU":
-            pass
+            self.NimpNurg()
         else:
             print("Invalid Input")
-            
-    #Function that print put all important and Urgent task  
+                 
+    #Function that print all important and Urgent task  
     def impUrg(self):
         for key1, val in self.MyTasks.items():
             for key2 in val:
                 if key2 == "Priority" and val[key2] ==  "Important and Urgent":
                     return f"Category Name: {key1} \n Task Name: {val[key2]}"
-                
-                
+                      
+    #Function that print  all Important but not urgent task  
+    def impNurg(self):
+        for key1, val in self.MyTasks.items():
+            for key2 in val:
+                if key2 == "Priority" and val[key2] == "Important but not Urgent":
+                    return f"Category Name: {key1} \n Tak Name: {val[key2]}"
+                         
+    #Function that print  Not all important and not urgent task  
+    def NimpNurg(self):
+        for key1, val in self.MyTasks.items():
+            for key2 in val:
+                if key2 == "Priority" and val[key2] == "Not Important and not urgent":
+                    return f"Category Name: {key1} \n Tak Name: {val[key2]}"
+            
+            
+    # Function to update a category with a new task directly from homepage
+    def newTask(self):
+        categoryName =  input("Enter Category name:  ")
+        for key in self.MyTasks.keys():
+            if categoryName in key:
+                print(categoryName)
+                self.createTask()
+            else:
+                print("CATEGORY NAME DOES NOT EXIST")
+                categoryName_new = input("Would you like to create new category? YES/NO\n")
+                if categoryName_new.upper() == "YES":
+                    self.newCategory()
+                elif categoryName_new.upper() == "NO":
+                    self.homepage()
+                else:
+                    print("INVALID OPERATION!! ") 
+              
+   
 myManager = TaskManager({}, [], [], [])
 # myManager = TaskManager(MyTasks, RecentTasks, Important, DismissedTask)#MyTasks, RecentTasks, Important=)        
